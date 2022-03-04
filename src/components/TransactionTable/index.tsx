@@ -1,19 +1,24 @@
+import { useEffect, useState } from 'react';
+import { api } from '../../services/api';
 import * as Styled from './styles';
 
-type CardTable = {
+type CardTransaction = {
   description: string;
   value: number;
   category: string;
   date: string;
 }
 
-export type TransactionTableProps = {
-  data: CardTable[];
-};
+export const TransactionTable = () => {
 
-export const TransactionTable = ({
-    data
-  }: TransactionTableProps) => {
+    const [transactions, setTransactions] = useState<CardTransaction[]>([]);
+
+    useEffect(()=> {
+      api.get('/transactions')
+      .then(response => console.log(response.data))
+    }, [])
+
+
   return (
     <Styled.Container>
       <table>
@@ -27,7 +32,7 @@ export const TransactionTable = ({
         </thead>
         <tbody>
           {
-            data.map(({
+            transactions && transactions.map(({
               description,
               value,
               category,
@@ -43,6 +48,13 @@ export const TransactionTable = ({
                 )
               }
             )
+          }
+
+          {
+            !transactions.length &&
+            <tr>
+              <td>Não há transações</td>
+            </tr>
           }
         </tbody>
       </table>
