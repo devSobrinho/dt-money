@@ -10,14 +10,12 @@ type CardTransaction = {
 }
 
 export const TransactionTable = () => {
+  const [transactions, setTransactions] = useState<CardTransaction[]>([]);
 
-    const [transactions, setTransactions] = useState<CardTransaction[]>([]);
-
-    useEffect(()=> {
-      api.get('/transactions')
-      .then(response => console.log(response.data))
-    }, [])
-
+  useEffect(()=> {
+    api.get('/transactions')
+    .then(response => console.log(response.data))
+  }, [])
 
   return (
     <Styled.Container>
