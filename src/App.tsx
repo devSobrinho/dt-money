@@ -1,26 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// import { Heading } from './style'
+import styled from 'styled-components';
+import { Dashboard } from './components/Dashboard';
+import { Header } from './components/Header';
+import { GlobalStyles } from './styles/global-styles';
 
-function App() {
+
+export const Heading = styled.h1`
+
+`
+
+
+
+export function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <Dashboard />
+      <GlobalStyles />
     </div>
   );
 }
-
-export default App;
