@@ -1,21 +1,9 @@
-import { useEffect, useState } from 'react';
-import { api } from '../../services/api';
+import { useTransaction } from '../../hooks/useTransactions';
 import * as Styled from './styles';
 
-type CardTransaction = {
-  description: string;
-  value: number;
-  category: string;
-  date: string;
-}
 
 export const TransactionTable = () => {
-  const [transactions, setTransactions] = useState<CardTransaction[]>([]);
-
-  useEffect(()=> {
-    api.get('/transactions')
-    .then(response => console.log(response.data))
-  }, [])
+  const { transactions } = useTransaction();
 
   return (
     <Styled.Container>
@@ -31,28 +19,26 @@ export const TransactionTable = () => {
         <tbody>
           {
             transactions && transactions.map(({
-              description,
-              value,
+              title,
+              amount,
+              type,
               category,
-              date,
+              createdAt,
+              id
               }) => {
                 return (
-                  <tr>
-                      <td>{description}</td>
-                      <td className={value >= 0 ? 'deposit' : 'withdraw'}>R$ {value}</td>
+                  <tr key={id} className={id}>
+                      <td>{title}</td>
+                      <td className={type}>{new Intl.NumberFormat('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL'
+                      }).format(amount)}</td>
                       <td>{category}</td>
-                      <td>{date}</td>
+                      <td>{new Intl.DateTimeFormat('pt-BR').format(new Date(createdAt))}</td>
                   </tr>
                 )
               }
             )
-          }
-
-          {
-            !transactions.length &&
-            <tr>
-              <td>Não há transações</td>
-            </tr>
           }
         </tbody>
       </table>
